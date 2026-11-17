@@ -304,7 +304,7 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
   <div class="head reveal">
     <span class="eyebrow">Results</span>
     <h2>Numbers from <em>live ad accounts.</em></h2>
-    <p class="lead">Every figure comes straight from Meta Ads Manager. Tap a receipt to see the screenshot.</p>
+    <p class="lead">Every figure comes straight from Meta Ads Manager.</p>
   </div>
   <div class="cases reveal" id="cases"></div>
 </div></section>
@@ -684,9 +684,7 @@ SITE.results.forEach(r => {
   if (r.driveId) c.append(tile({ title: r.title, driveId: r.driveId, category: r.type }, r.type));
   const body = el("div", "body", `<div class="top">Top ad · <b>${esc(r.title)}</b></div>
     <div class="lead-stat">${esc(r.lead[0])}<small>${esc(r.lead[1])} · ${esc(r.type)}</small></div>
-    <div class="mini">${r.metrics.map(([v, k]) => `<div><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join("")}</div>
-    <button class="link rlink">View receipt ↗</button>`);
-  body.querySelector(".rlink").onclick = () => openReceipt(r.image);
+    <div class="mini">${r.metrics.map(([v, k]) => `<div><b>${esc(v)}</b><span>${esc(k)}</span></div>`).join("")}</div>`);
   c.append(body); $("#cases").append(c);
 });
 
