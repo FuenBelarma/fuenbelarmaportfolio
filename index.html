@@ -129,7 +129,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:60;background:rgba(11,9,19,.82);b
 .receipt button{display:block;width:100%;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#fff;position:relative}
 .receipt img{width:100%;height:92px;object-fit:cover;object-position:top}
 .receipt button::after{content:"Receipt ↗";position:absolute;right:8px;bottom:8px;padding:3px 8px;border-radius:999px;background:var(--bg);color:var(--text);font-size:11px;font-weight:700;letter-spacing:.04em}
-.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.cases{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .case{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(rgb(25,23,33),rgb(16,14,24));overflow:hidden;display:flex;flex-direction:column}
 .case .tile{border:0;border-radius:0}
 .case .tile .media{aspect-ratio:4/5}
@@ -306,7 +306,6 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
     <h2>Numbers from <em>live ad accounts.</em></h2>
     <p class="lead">Every figure comes straight from Meta Ads Manager. Tap a receipt to see the screenshot.</p>
   </div>
-  <div class="stats reveal" id="stats"></div>
   <div class="cases reveal" id="cases"></div>
 </div></section>
 
@@ -590,13 +589,8 @@ SITE.results = [
     lead: ["46.43%", "hook rate"], metrics: [["$1,549.73", "Spend"], ["19.72%", "Hold rate"], ["1.78%", "Outbound CTR"]] },
   // $778 result (images/results-3.png) is hidden for now: add it back with a video when ready
 ];
-/* Big stat cards at the top of Proof: [figure, label, receipt image] */
-SITE.stats = [
-  ["$7,443", "purchase value across two ads", "images/results-1.png"],
-  ["51.6%", "top hook rate (thumbstop)", "images/results-1.png"],
-  ["1.8", "best ROAS", "images/results-2.png"],
-  ["7.34%", "top link click-through rate", "images/results-2.png"],
-];
+/* Big stat cards at the top of Proof: [figure, label, receipt image] (none for now) */
+SITE.stats = [];
 SITE.styles = ["AI Drama", "Pixar-Style 3D", "Claymation", "AI UGC", "AI Song", "VSL", "Hook Variations", "Pixar × Realism", "Short-Form Edits"];
 
 const $ = s => document.querySelector(s), el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
@@ -681,7 +675,7 @@ $("#moreBtn").onclick = () => { expanded = true; drawLib(); };
 drawLib();
 
 /* proof */
-SITE.stats.forEach(([fig, label, img]) => {
+if ($("#stats")) SITE.stats.forEach(([fig, label, img]) => {
   const s = el("div", "stat", `<strong>${esc(fig)}</strong><span>${esc(label)}</span><div class="receipt"><button aria-label="View receipt"><img loading="lazy" src="${esc(img)}" alt=""></button></div>`);
   s.querySelector("button").onclick = () => openReceipt(img); $("#stats").append(s);
 });
