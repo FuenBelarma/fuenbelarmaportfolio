@@ -116,8 +116,8 @@ header{position:fixed;inset:0 0 auto 0;z-index:60;background:rgba(11,9,19,.82);b
 .tile.playing .cap,.tile.playing .poster{display:none}
 .vwrap{position:absolute;inset:0;overflow:hidden;background:#000}
 .vwrap iframe{position:absolute;left:0;top:0;width:360px;height:640px;border:0;transform-origin:0 0;transform:scale(var(--s,.6))}
-.ext{position:absolute;right:8px;top:8px;z-index:3;width:30px;height:30px;border-radius:8px;display:grid;place-items:center;background:rgba(11,9,19,.75);border:1px solid var(--line);font-size:13px;opacity:0;transition:.2s}
-.tile:hover .ext,.tile.playing .ext{opacity:1}
+/* covers Google Drive's own pop-out button (top-right of its player) so visitors stay on the site */
+.shield{position:absolute;top:0;right:0;z-index:2;width:calc(72px * var(--s,.6));height:calc(72px * var(--s,.6))}
 .more{text-align:center;margin-top:34px}
 
 /* results */
@@ -623,7 +623,7 @@ if (SITE.email) { $("#footmail").textContent = SITE.email; $("#footmail").href =
 
 /* Drive's player has a minimum layout width: render it at 360×640 and scale it to fit */
 const fitPlayer = new ResizeObserver(es => es.forEach(e => e.target.style.setProperty("--s", Math.max(e.contentRect.width / 360, e.contentRect.height / 640))));
-const player = id => { const w = el("div", "vwrap", `<iframe src="https://drive.google.com/file/d/${esc(id)}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe>`); fitPlayer.observe(w); return w; };
+const player = id => { const w = el("div", "vwrap", `<iframe src="https://drive.google.com/file/d/${esc(id)}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe><div class="shield" aria-hidden="true"></div>`); fitPlayer.observe(w); return w; };
 
 /* modal: receipts and hero videos */
 const modal = $("#modal");
@@ -643,8 +643,7 @@ function tile(p, label) {
   const poster = el("button", "poster", `<img loading="lazy" src="${thumbUrl(p.driveId)}" alt="" onerror="this.style.opacity=0">`);
   poster.setAttribute("aria-label", "Play " + p.title);
   media.append(poster, el("span", "play"));
-  media.insertAdjacentHTML("beforeend", `<div class="cap"><small>${esc(label ?? p.category)}</small><b>${esc(p.title)}</b></div>
-    <a class="ext" href="https://drive.google.com/file/d/${esc(p.driveId)}/view" target="_blank" rel="noopener" title="Open in Google Drive">↗</a>`);
+  media.insertAdjacentHTML("beforeend", `<div class="cap"><small>${esc(label ?? p.category)}</small><b>${esc(p.title)}</b></div>`);
   poster.onclick = () => {
     if (current && current !== t) stop(current);
     t.classList.add("playing"); media.querySelector(".play").hidden = true; media.prepend(player(p.driveId)); current = t;
