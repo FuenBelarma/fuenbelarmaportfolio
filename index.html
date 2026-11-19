@@ -865,15 +865,17 @@ $("#form").onsubmit = e => {
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   const clamp = t => Math.min(1, Math.max(0, t));
   function portraitPts() {
-    const size = Math.min(H * .82, W * .9), cols = Math.round(size / (W < 700 ? 7 : 9)), step = size / cols;
+    const size = Math.min(H * .9, W * .92), cols = Math.round(size / (W < 700 ? 5 : 6.5)), step = size / cols;
     const oc = document.createElement("canvas"); oc.width = oc.height = cols;
     const o = oc.getContext("2d", { willReadFrequently: true }); o.drawImage(img, 0, 0, cols, cols);
-    const d = o.getImageData(0, 0, cols, cols).data, x0 = (W - size) / 2, y0 = (H - size) / 2 + H * .03, out = [];
+    const d = o.getImageData(0, 0, cols, cols).data, x0 = (W - size) / 2, y0 = (H - size) / 2 + H * .04, out = [];
     for (let y = 0; y < cols; y++) for (let x = 0; x < cols; x++) {
-      const i = (y * cols + x) * 4, b = (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 255;
-      const m = Math.max(0, 1 - Math.hypot((x / cols - .5) * 1.15, y / cols - .48) / .5);
-      const r = step * .5 * Math.pow(b, .9) * Math.min(1, m * 1.6);
-      if (r > .45) out.push({ x: x0 + x * step + step / 2, y: y0 + y * step + step / 2, r });
+      const i = (y * cols + x) * 4, raw = (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 255;
+      // stretch the photo's contrast so skin and shirt read clearly against the dark backdrop
+      const b = Math.min(1, Math.max(0, (raw - .2) / .55));
+      const m = Math.min(1, Math.max(0, (1 - Math.hypot((x / cols - .5) * 1.1, (y / cols - .55) * .9) / .62) * 2.2));
+      const r = step * .52 * Math.pow(b, .75) * m;
+      if (r > .4) out.push({ x: x0 + x * step + step / 2, y: y0 + y * step + step / 2, r });
     }
     return out;
   }
