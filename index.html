@@ -231,7 +231,7 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
 #morph{padding:0;height:320vh}
 #morph .stage{position:sticky;top:0;height:100vh;overflow:hidden}
 #morph canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
-#morph .cap{position:absolute;left:0;right:0;bottom:15vh;text-align:center;padding:0 20px;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;pointer-events:none}
+#morph .cap{position:absolute;left:0;right:0;bottom:22vh;text-align:center;padding:0 20px;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;pointer-events:none}
 #morph .cap.on{opacity:1;transform:none}
 #morph .cap p{font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,32px);letter-spacing:-.02em;color:var(--muted)}
 #morph .cap small{display:block;margin-top:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:700}
@@ -880,11 +880,11 @@ $("#form").onsubmit = e => {
     return out;
   }
   function numberPts() {
-    const fs = Math.min(W / 3.6, H * .42), oc = document.createElement("canvas"); oc.width = W; oc.height = H;
+    const fs = Math.min(W / 4.4, H * .34), oc = document.createElement("canvas"); oc.width = W; oc.height = H;
     const o = oc.getContext("2d", { willReadFrequently: true });
     o.fillStyle = "#fff"; o.font = `800 ${fs}px Archivo, Arial, sans-serif`; o.textAlign = "center"; o.textBaseline = "middle";
-    o.fillText(NUM, W / 2, H * .42);
-    const step = Math.max(5, Math.round(fs / 26)), d = o.getImageData(0, 0, W, H).data, out = [];
+    o.fillText(NUM, W / 2, H * .43);
+    const step = Math.max(4, Math.round(fs / 34)), d = o.getImageData(0, 0, W, H).data, out = [];
     for (let y = 0; y < H; y += step) for (let x = 0; x < W; x += step) if (d[(y * W + x) * 4 + 3] > 128) out.push({ x, y, r: step * .42 });
     return out;
   }
