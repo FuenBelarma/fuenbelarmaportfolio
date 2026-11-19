@@ -227,6 +227,15 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
 .foot a:hover{color:var(--text)}
 
 
+/* portrait-to-number particle morph (scroll-driven) */
+#morph{padding:0;height:320vh}
+#morph .stage{position:sticky;top:0;height:100vh;overflow:hidden}
+#morph canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+#morph .cap{position:absolute;left:0;right:0;bottom:15vh;text-align:center;padding:0 20px;opacity:0;transform:translateY(16px);transition:opacity .5s,transform .5s;pointer-events:none}
+#morph .cap.on{opacity:1;transform:none}
+#morph .cap p{font-family:Archivo,sans-serif;font-weight:700;font-size:clamp(20px,2.6vw,32px);letter-spacing:-.02em;color:var(--muted)}
+#morph .cap small{display:block;margin-top:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-weight:700}
+#morph .hint{position:absolute;left:50%;bottom:5vh;translate:-50% 0;font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);font-weight:700;transition:opacity .4s}
 /* hook reel */
 .hooks{display:grid;grid-template-columns:1fr minmax(260px,360px);gap:56px;align-items:center}
 .hooks .ctl{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
@@ -335,6 +344,14 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
   <div class="trust">
     <p>Ad styles I produce</p>
     <div class="marquee" id="marquee"></div>
+  </div>
+</section>
+
+<section id="morph" aria-label="$5,229 in purchase value from one AI song ad">
+  <div class="stage">
+    <canvas id="morphCv" aria-hidden="true"></canvas>
+    <div class="cap" id="morphCap"><p>in purchase value from one AI song ad.</p><small>Matt &amp; Bow · 1.79 ROAS · 51.62% hook rate · Meta Ads Manager</small></div>
+    <span class="hint" id="morphHint">Scroll</span>
   </div>
 </section>
 
@@ -836,6 +853,74 @@ $("#form").onsubmit = e => {
   else location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("New project enquiry")}&body=${text}`;
 };
 
+
+/* portrait → particles → number, driven by scroll */
+(() => {
+  const sec = $("#morph"), cv = $("#morphCv"), cap = $("#morphCap"), hint = $("#morphHint");
+  const ctx = cv.getContext("2d"), still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const NUM = "$5,229";
+  let W = 0, H = 0, dpr = 1, P = [], ready = false, raf = 0;
+  const img = new Image();
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const clamp = t => Math.min(1, Math.max(0, t));
+  function portraitPts() {
+    const size = Math.min(H * .82, W * .9), cols = Math.round(size / (W < 700 ? 7 : 9)), step = size / cols;
+    const oc = document.createElement("canvas"); oc.width = oc.height = cols;
+    const o = oc.getContext("2d", { willReadFrequently: true }); o.drawImage(img, 0, 0, cols, cols);
+    const d = o.getImageData(0, 0, cols, cols).data, x0 = (W - size) / 2, y0 = (H - size) / 2 + H * .03, out = [];
+    for (let y = 0; y < cols; y++) for (let x = 0; x < cols; x++) {
+      const i = (y * cols + x) * 4, b = (d[i] * .3 + d[i + 1] * .59 + d[i + 2] * .11) / 255;
+      const m = Math.max(0, 1 - Math.hypot((x / cols - .5) * 1.15, y / cols - .48) / .5);
+      const r = step * .5 * Math.pow(b, .9) * Math.min(1, m * 1.6);
+      if (r > .45) out.push({ x: x0 + x * step + step / 2, y: y0 + y * step + step / 2, r });
+    }
+    return out;
+  }
+  function numberPts() {
+    const fs = Math.min(W / 3.6, H * .42), oc = document.createElement("canvas"); oc.width = W; oc.height = H;
+    const o = oc.getContext("2d", { willReadFrequently: true });
+    o.fillStyle = "#fff"; o.font = `800 ${fs}px Archivo, Arial, sans-serif`; o.textAlign = "center"; o.textBaseline = "middle";
+    o.fillText(NUM, W / 2, H * .42);
+    const step = Math.max(5, Math.round(fs / 26)), d = o.getImageData(0, 0, W, H).data, out = [];
+    for (let y = 0; y < H; y += step) for (let x = 0; x < W; x += step) if (d[(y * W + x) * 4 + 3] > 128) out.push({ x, y, r: step * .42 });
+    return out;
+  }
+  function build() {
+    dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const a = portraitPts(), b = numberPts(), n = Math.max(a.length, b.length);
+    a.sort(() => Math.random() - .5); b.sort(() => Math.random() - .5);
+    P = Array.from({ length: n }, (_, i) => {
+      const s = a[i % a.length], t = b[i % b.length], ang = rnd(0, Math.PI * 2), dist = rnd(.15, .75) * Math.max(W, H);
+      return { ax: s.x, ay: s.y, ar: i < a.length ? s.r : 0, bx: t.x, by: t.y, br: i < b.length ? t.r : 0,
+        sx: W / 2 + Math.cos(ang) * dist, sy: H / 2 + Math.sin(ang) * dist * .7, sr: rnd(.6, 2.6), k: Math.random() };
+    });
+    ready = true; draw();
+  }
+  function progress() { const r = sec.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight)); }
+  function draw() {
+    if (!ready) return;
+    const p = still ? 1 : progress();
+    ctx.clearRect(0, 0, W, H);
+    for (const q of P) {
+      const lag = q.k * .12, u = ease(clamp((p - .12 - lag) / .3)), v = ease(clamp((p - .5 - lag * .6) / .3));
+      let x, y, r;
+      if (v <= 0) { x = q.ax + (q.sx - q.ax) * u; y = q.ay + (q.sy - q.ay) * u; r = q.ar + (q.sr - q.ar) * u; }
+      else { x = q.sx + (q.bx - q.sx) * v; y = q.sy + (q.by - q.sy) * v; r = q.sr + (q.br - q.sr) * v; }
+      if (r < .3) continue;
+      const t = v * q.k; // the number lands in the brand lilac, the portrait stays near-white
+      ctx.fillStyle = `rgba(${Math.round(241 - 56 * t)},${Math.round(238 - 75 * t)},251,.92)`;
+      ctx.beginPath(); ctx.arc(x, y, r, 0, 6.283); ctx.fill();
+    }
+    cap.classList.toggle("on", p > .86); hint.style.opacity = p < .1 ? 1 : 0;
+  }
+  const loop = () => { draw(); raf = requestAnimationFrame(loop); };
+  new IntersectionObserver(([e]) => { cancelAnimationFrame(raf); if (e.isIntersecting && !still) raf = requestAnimationFrame(loop); else draw(); }).observe(sec);
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(build, 200); });
+  img.onload = () => (document.fonts ? document.fonts.ready : Promise.resolve()).then(build);
+  img.src = SITE.photo;
+})();
 
 /* hook reel */
 (() => {
