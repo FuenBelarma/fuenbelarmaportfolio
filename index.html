@@ -212,6 +212,39 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
 .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .foot a:hover{color:var(--text)}
 
+
+/* hook reel */
+.hooks{display:grid;grid-template-columns:1fr minmax(260px,360px);gap:56px;align-items:center}
+.hooks .ctl{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.hooks .meta{margin-top:26px;font-size:14px;color:var(--dim)}
+.hooks .meta b{display:block;font-family:Archivo,sans-serif;font-size:22px;color:var(--text);letter-spacing:-.02em;margin-top:4px}
+.reel{position:relative;aspect-ratio:9/16;border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#000;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 6px var(--panel3)}
+.reel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}
+.reel img.on{opacity:1;animation:kb 3s linear forwards}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.08)}}
+.reel .bar{position:absolute;left:14px;right:14px;top:14px;height:3px;border-radius:3px;background:rgba(255,255,255,.22);z-index:2;overflow:hidden}
+.reel .bar i{display:block;height:100%;width:0;background:var(--text)}
+.reel .bar i.run{animation:fill 3s linear forwards}
+@keyframes fill{to{width:100%}}
+.reel .timer{position:absolute;right:14px;top:26px;z-index:2;font:700 12px/1 Archivo,sans-serif;letter-spacing:.06em;padding:6px 9px;border-radius:999px;background:rgba(11,9,19,.7)}
+.reel .tag{position:absolute;left:14px;bottom:14px;z-index:2;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px;background:rgba(11,9,19,.75);color:var(--accent)}
+.reel button.hit{position:absolute;inset:0;z-index:1}
+.reel:hover .bar i,.reel:hover img.on{animation-play-state:paused}
+/* hook breakdowns */
+.bds{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.bd{border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(rgb(25,23,33),rgb(16,14,24));overflow:hidden;display:flex;flex-direction:column}
+.bd .shot{position:relative;aspect-ratio:4/5;background:#000;overflow:hidden}
+.bd .shot img{width:100%;height:100%;object-fit:cover;object-position:center 40%;transition:transform .4s}
+.bd .shot:hover img{transform:scale(1.04)}
+.bd .shot .play{top:50%}
+.bd .body{padding:22px 22px 24px;display:flex;flex-direction:column;flex:1}
+.bd small{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.bd h3{margin:8px 0 10px}
+.bd q{display:block;font-family:Archivo,sans-serif;font-weight:800;font-size:17px;letter-spacing:-.01em;margin-bottom:10px;quotes:"\201C" "\201D"}
+.bd p{color:var(--muted);font-size:15px}
+.bd .kpi{margin-top:auto;padding-top:18px;display:flex;align-items:baseline;gap:8px;font-size:13px;color:var(--dim)}
+.bd .kpi b{font-family:Archivo,sans-serif;font-size:24px;color:var(--good);letter-spacing:-.02em}
+@media (max-width:980px){.hooks{grid-template-columns:1fr;gap:36px}.hooks .reel{max-width:340px;margin-inline:auto;width:100%}.bds{grid-template-columns:1fr;max-width:460px;margin-inline:auto}}
 /* modal (receipts + hero videos) */
 #modal{position:fixed;inset:0;z-index:100;background:rgba(6,5,10,.88);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;padding:20px}
 #modal.open{display:flex}
@@ -256,7 +289,7 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
 <header><div class="wrap nav">
   <a class="logo" href="#top"><span class="mark" data-f="initials"></span><span data-f="name"></span></a>
   <nav class="links" id="links">
-    <a href="#work">Work</a><a href="#proof">Proof</a><a href="#process">Process</a><a href="#about">About</a><a href="#faq">FAQ</a>
+    <a href="#hooks">Hooks</a><a href="#work">Work</a><a href="#proof">Proof</a><a href="#process">Process</a><a href="#about">About</a><a href="#faq">FAQ</a>
   </nav>
   <a class="btn primary" href="#contact">Let's talk</a>
   <button id="burger" aria-label="Menu">☰</button>
@@ -289,6 +322,17 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
   </div>
 </section>
 
+<section id="hooks"><div class="wrap hooks">
+  <div class="reveal">
+    <span class="eyebrow">The 3-second test</span>
+    <h2>Three seconds <em>to earn the view.</em></h2>
+    <p class="lead">Every ad wins or loses in its opening frame. Here are my hooks, one after another, three seconds each. If one stops you, it will stop your customers too.</p>
+    <div class="ctl"><button class="btn primary" id="hookWatch">Watch this full ad</button><button class="btn" id="hookNext">Next hook →</button></div>
+    <div class="meta" id="hookMeta"></div>
+  </div>
+  <div class="reel reveal" id="reel" aria-label="Hook reel"><div class="bar"><i id="hookBar"></i></div><span class="timer" id="hookTimer">3.0s</span><span class="tag" id="hookTag"></span><button class="hit" id="hookHit" aria-label="Watch this full ad"></button></div>
+</div></section>
+
 <section id="work"><div class="wrap">
   <div class="head reveal">
     <span class="eyebrow">Creative library</span>
@@ -307,6 +351,15 @@ footer{border-top:1px solid var(--line2);padding:30px 0;font-size:13.5px;color:v
     <p class="lead">Every figure comes straight from Meta Ads Manager.</p>
   </div>
   <div class="cases reveal" id="cases"></div>
+</div></section>
+
+<section id="breakdown"><div class="wrap">
+  <div class="head reveal">
+    <span class="eyebrow">Strategy · Why they work</span>
+    <h2>Three hooks, <em>broken down.</em></h2>
+    <p class="lead">The thinking behind the opening frame of my three best-performing ads, with the hook rate each one hit on Meta.</p>
+  </div>
+  <div class="bds reveal" id="bds"></div>
 </div></section>
 
 <section id="process"><div class="wrap">
@@ -622,6 +675,24 @@ SITE.results = [
   // $778 result (images/results-3.png) is hidden for now: add it back with a video when ready
 ];
 /* Big stat cards at the top of Proof: [figure, label, receipt image] (none for now) */
+
+/* Hook reel: the opening frame of each ad, 3 seconds each. Add clip: "images/x.mp4" later to play a real 3s video instead. */
+SITE.hooks = [
+  "1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_", "12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ", "1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-",
+  "1CgAuRqCn1Xmv54PN3CUnRFpn_2vb61ry", "1u-nGqpliDLFHQyc8JNKvIthVknOo96ZH", "1kCYkY-zwS_talGXBUZ7TtWRKMROuo7u3",
+  "1BB7agBdGNinH4nUCr9E7h86jnyF66mtW", "1dtOS5OIrvDB3mK8zEUX7cUaI6LEWA3c8", "1NDt7Ua5AOgwWYYX0FIKOurWNGMR5e99j",
+  "1qep4tav-28BDP9YKkMKHMWLWZBgHyVRW", "1yiewfp5ibtJdeX4wHnoJ0NTbynOUzmJf", "1jTiZ-yeV2y9NbUKV0G5ew8RRYQDxo7eB",
+  "1SPCD8C_UCCSCRgqv0rb1Aj-oJtclJDlx", "1iPob2VZluRM_PfW6mHM9QrOKCSI1zEll", "1dC8ceiV6-wbDaB2KBi_Y4OciB3-X0jYa",
+];
+/* "Three hooks, broken down": opening frame + why it works + the real hook rate from Meta */
+SITE.breakdowns = [
+  { driveId: "1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_", label: "AI Song · Matt & Bow", name: "The heartbreak open", line: "My husband left me",
+    why: "It opens on the worst moment of someone's life: a man walking out with a suitcase. Viewers stay to find out what happens next, and the song turns that tension into the product story.", kpi: "51.62%" },
+  { driveId: "12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ", label: "Claymation · Naturiq NexGenPrime", name: "Authority meets clay", line: "Her doctor said",
+    why: "A gloved hand on a clay belly and a doctor's verdict, half-spoken. Authority creates the question, and the claymation look stops the thumb before the viewer decides to scroll.", kpi: "47.56%" },
+  { driveId: "1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-", label: "3D Pixar-style · Whisko", name: "The problem as a villain", line: "I'm ammonia.",
+    why: "The litter-box smell becomes a smug green character that introduces itself. Every cat owner knows this enemy, so the problem is named in one line and the product gets a villain to defeat.", kpi: "46.43%" },
+];
 SITE.stats = [];
 SITE.styles = ["AI Drama", "Pixar-Style 3D", "Claymation", "AI UGC", "AI Song", "VSL", "Hook Variations", "Pixar × Realism", "Short-Form Edits"];
 
@@ -739,6 +810,49 @@ $("#form").onsubmit = e => {
   else location.href = `mailto:${SITE.email}?subject=${encodeURIComponent("New project enquiry")}&body=${text}`;
 };
 
+
+/* hook reel */
+(() => {
+  const byId = Object.fromEntries(SITE.projects.map(p => [p.driveId, p]));
+  const list = SITE.hooks.filter(id => byId[id]), reel = $("#reel"), bar = $("#hookBar"), timer = $("#hookTimer");
+  if (!list.length) { $("#hooks").remove(); return; }
+  const imgs = list.map(id => { const i = el("img"); i.alt = ""; i.loading = "lazy"; i.src = thumbUrl(id, 720); reel.prepend(i); return i; });
+  let i = 0, t0 = 0, raf = 0, paused = false, left = 3000;
+  const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function show(n) {
+    i = (n + list.length) % list.length; const p = byId[list[i]];
+    imgs.forEach((im, k) => im.classList.toggle("on", k === i));
+    const on = imgs[i]; on.style.animation = "none"; void on.offsetWidth; on.style.animation = "";
+    bar.classList.remove("run"); void bar.offsetWidth; bar.classList.add("run");
+    $("#hookTag").textContent = p.category;
+    $("#hookMeta").innerHTML = `Hook ${String(i + 1).padStart(2, "0")} of ${String(list.length).padStart(2, "0")}<b>${esc(p.title)}</b>`;
+    left = 3000; t0 = performance.now();
+    (new Image()).src = thumbUrl(list[(i + 1) % list.length], 720);
+  }
+  function tick(now) {
+    if (!paused && !still) {
+      const r = Math.max(0, left - (now - t0)); timer.textContent = (r / 1000).toFixed(1) + "s";
+      if (r <= 0) show(i + 1);
+    }
+    raf = requestAnimationFrame(tick);
+  }
+  reel.onmouseenter = () => { paused = true; left = Math.max(0, left - (performance.now() - t0)); };
+  reel.onmouseleave = () => { paused = false; t0 = performance.now(); };
+  const watch = () => openVideo(list[i]);
+  $("#hookWatch").onclick = watch; $("#hookHit").onclick = watch;
+  $("#hookNext").onclick = () => show(i + 1);
+  new IntersectionObserver(([e]) => { cancelAnimationFrame(raf); if (e.isIntersecting) { t0 = performance.now(); raf = requestAnimationFrame(tick); } }).observe(reel);
+  show(0);
+})();
+
+/* hook breakdowns */
+SITE.breakdowns.forEach(b => {
+  const c = el("article", "bd");
+  const shot = el("button", "shot", `<img loading="lazy" src="${thumbUrl(b.driveId, 720)}" alt=""><span class="play"></span>`);
+  shot.setAttribute("aria-label", "Play " + b.name); shot.onclick = () => openVideo(b.driveId);
+  const body = el("div", "body", `<small>${esc(b.label)}</small><h3>${esc(b.name)}</h3><q>${esc(b.line)}</q><p>${esc(b.why)}</p><div class="kpi"><b>${esc(b.kpi)}</b>hook rate · Meta</div>`);
+  c.append(shot, body); $("#bds").append(c);
+});
 /* nav + reveal */
 $("#burger").onclick = () => $("#links").classList.toggle("open");
 $("#links").onclick = () => $("#links").classList.remove("open");
