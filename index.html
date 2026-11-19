@@ -691,7 +691,7 @@ SITE.breakdowns = [
   { driveId: "12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ", label: "Claymation · Naturiq NexGenPrime", name: "Authority meets clay", line: "Her doctor said",
     why: "A gloved hand on a clay belly and a doctor's verdict, half-spoken. Authority creates the question, and the claymation look stops the thumb before the viewer decides to scroll.", kpi: "47.56%" },
   { driveId: "1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-", label: "3D Pixar-style · Whisko", name: "The problem as a villain", line: "I'm ammonia.",
-    why: "The litter-box smell becomes a smug green character that introduces itself. Every cat owner knows this enemy, so the problem is named in one line and the product gets a villain to defeat.", kpi: "46.43%" },
+    why: "The litter-box smell becomes a smug green character that introduces itself. Every cat owner knows this enemy, so the problem is named in one line and the product gets a villain to defeat.", kpi: "46.43%", pos: "center 6%" },
 ];
 SITE.stats = [];
 SITE.styles = ["AI Drama", "Pixar-Style 3D", "Claymation", "AI UGC", "AI Song", "VSL", "Hook Variations", "Pixar × Realism", "Short-Form Edits"];
@@ -848,7 +848,7 @@ $("#form").onsubmit = e => {
 /* hook breakdowns */
 SITE.breakdowns.forEach(b => {
   const c = el("article", "bd");
-  const shot = el("button", "shot", `<img loading="lazy" src="${thumbUrl(b.driveId, 720)}" alt=""><span class="play"></span>`);
+  const shot = el("button", "shot", `<img loading="lazy" src="${thumbUrl(b.driveId, 720)}" alt=""${b.pos ? ` style="object-position:${esc(b.pos)}"` : ""}><span class="play"></span>`);
   shot.setAttribute("aria-label", "Play " + b.name); shot.onclick = () => openVideo(b.driveId);
   const body = el("div", "body", `<small>${esc(b.label)}</small><h3>${esc(b.name)}</h3><q>${esc(b.line)}</q><p>${esc(b.why)}</p><div class="kpi"><b>${esc(b.kpi)}</b>hook rate · Meta</div>`);
   c.append(shot, body); $("#bds").append(c);
