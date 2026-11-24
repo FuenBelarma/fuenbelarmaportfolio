@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fuen Belarma Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Playfair+Display:ital,wght@1,900&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE  occasion: a studio showreel site, confident and cinematic
+   IDEA   a post-production studio's reel: black screens, cut-in titles, gold slate marks
+   PICTURE the ads themselves, as masked type, film strips and full-bleed reels
+   COLOUR black and white fields, one champagne gold #d9c195 for what matters
+   TYPE   Archivo at full width (wide display) + Hanken Grotesk for text
+   LAYOUT black intro and reel, name over a frame, white statement, black proof and work, gold tool band, black contact */
+:root{color-scheme:dark;--gold:#d9c195;--gold2:#c9ad79;--ink:#0a0a0a;--paper:#fff;--mute:#8d8d8d;--line:rgba(255,255,255,.16)}
+*{box-sizing:border-box;min-width:0}
+html{overflow-x:clip;scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:#000;color:#fff;font:16px/1.55 "Hanken Grotesk",system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit}
+.w{font-family:"Archivo",system-ui,sans-serif;font-stretch:125%;font-variation-settings:"wdth" 125;letter-spacing:-.01em}
+.wrap{width:min(1240px,100% - 2*max(5vw,16px));margin-inline:auto}
+.gold{color:var(--gold)}
+/* nav */
+nav{position:fixed;inset:0 0 auto;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px max(5vw,16px);mix-blend-mode:difference;color:#fff}
+.logo{font:italic 900 38px/1 "Playfair Display",Georgia,serif;letter-spacing:-.04em;text-decoration:none;display:inline-block}
+nav ul{display:flex;flex-wrap:wrap;gap:clamp(14px,3.4vw,52px);list-style:none;margin:0;padding:0}
+nav ul a{font:600 12px/1 "Archivo";font-stretch:125%;text-transform:uppercase;text-decoration:none;padding:10px 0;display:inline-block}
+nav ul a:hover{text-decoration:underline;text-underline-offset:5px}
+/* intro */
+#intro{height:320vh;position:relative}
+#reel{position:absolute;top:220vh}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;background:#000}
+.film{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:12px}
+.film .row{display:flex;gap:12px;width:max-content;will-change:transform}
+.film img,.film .ph{width:max(clamp(150px,17vw,250px),28.2vh);aspect-ratio:9/16;object-fit:cover;border-radius:4px;flex:none}
+.shade{position:absolute;inset:0;background:#000;opacity:0}
+.cut{position:absolute;inset:0;background:#000;mix-blend-mode:multiply;display:grid;place-items:center}
+.mono{font:italic 900 clamp(200px,40vw,620px)/.9 "Playfair Display",Georgia,serif;letter-spacing:0;color:#fff;position:relative;transform:rotate(-6deg);transform-origin:62% 60%;padding:0 .14em .08em .06em;user-select:none}
+.bl{display:inline-block;width:0;height:0}
+.stack{font:600 15px/1.08 "Archivo";font-stretch:125%;text-transform:uppercase;color:var(--gold)}
+.stack small{display:block;font-size:9px;color:#fff;margin-bottom:4px}
+#tag{position:absolute;left:50%;bottom:12%;margin:0;transform:translateX(-10%)}
+.hint{position:absolute;bottom:22px;left:50%;translate:-50% 0;font-size:13px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:8px}
+.hint i{width:1px;height:34px;background:linear-gradient(var(--gold),transparent);animation:drip 1.8s infinite}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.cap{position:absolute;inset:auto 0 0;padding:0 max(5vw,16px) clamp(36px,7vw,90px);display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:24px;opacity:0;pointer-events:none}
+.cap h2{font:500 clamp(34px,5.6vw,84px)/1 "Archivo";font-stretch:125%;letter-spacing:-.03em;margin:0;max-width:13ch}
+.cap p{max-width:36ch;margin:12px 0 0;color:#d8d8d8}
+/* circle button */
+.go{width:76px;height:76px;border-radius:50%;background:var(--gold);color:#000;display:grid;place-items:center;text-decoration:none;flex:none;border:0;cursor:pointer;transition:transform .35s cubic-bezier(.2,.8,.2,1),background .3s}
+.go:hover,.go:focus-visible{transform:scale(1.12);background:#fff}
+.go svg{width:22px;height:22px}
+.go.sm{width:50px;height:50px}
+/* name over frame */
+#name{position:relative;overflow:hidden;padding:clamp(80px,12vw,180px) max(5vw,16px)}
+.frame{width:min(58vw,840px);aspect-ratio:16/10;display:grid;grid-template-columns:repeat(3,1fr);gap:0;overflow:hidden;margin-left:clamp(0px,7vw,140px);filter:grayscale(1) contrast(1.08)}
+.frame img{width:100%;height:100%;object-fit:cover;transition:opacity .8s}
+.big{position:absolute;top:50%;left:clamp(16px,21vw,330px);translate:0 -50%;margin:0;font:600 clamp(54px,10.6vw,176px)/.92 "Archivo";font-stretch:125%;letter-spacing:-.04em;text-transform:uppercase;pointer-events:none}
+.big span{display:block}
+.big span:nth-child(2){margin-left:-.35em}
+.big span:nth-child(3){color:var(--gold)}
+.big b{color:var(--gold);font-weight:inherit}
+/* white */
+.white{background:var(--paper);color:var(--ink)}
+#studio{padding:clamp(80px,12vw,170px) 0 40px}
+.lead{display:grid;grid-template-columns:clamp(60px,10vw,150px) minmax(0,1fr);gap:clamp(16px,2.4vw,30px);align-items:start}
+.arrow{height:1px;background:currentColor;position:relative;margin-top:.62em}
+.arrow::after{content:"";position:absolute;right:0;top:-4px;width:8px;height:8px;border-top:1px solid;border-right:1px solid;transform:rotate(45deg)}
+.lead p{margin:0;font:500 clamp(26px,3.6vw,52px)/1.32 "Archivo";font-stretch:125%;letter-spacing:-.02em;max-width:24ch}
+.lead p .wd{color:#c9c9c9;transition:color .35s}
+.lead p .wd.on{color:var(--ink)}
+.lead p .wd.g.on{color:var(--gold2)}
+.slab{position:relative;overflow:hidden;margin-top:clamp(70px,10vw,150px);padding-bottom:clamp(60px,8vw,120px)}
+.slab .inner{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,6vw,96px);align-items:start}
+.card{aspect-ratio:3/4;max-width:500px;justify-self:end;width:100%;position:relative;overflow:hidden;background:#111}
+.card img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;transition:opacity .8s}
+.card em{position:absolute;right:16px;bottom:12px;font:500 15px "Archivo";font-stretch:125%;color:#fff;font-style:normal;opacity:.8;z-index:2}
+.caps{font:800 15px/1.4 "Hanken Grotesk";text-transform:uppercase;max-width:30ch;margin:clamp(20px,5vw,80px) 0 34px}
+.mq{position:absolute;left:0;right:0;top:58%;white-space:nowrap;font:400 clamp(70px,11vw,170px)/1 "Archivo";font-stretch:125%;letter-spacing:-.04em;color:#fff;mix-blend-mode:difference;pointer-events:none;will-change:transform}
+/* section heads */
+.head{display:flex;flex-wrap:wrap;align-items:center;gap:22px 30px;margin-bottom:clamp(40px,6vw,80px)}
+.head .arrow{width:clamp(60px,8vw,110px);margin-top:0;color:#fff}
+.head h2{margin:0;font:400 clamp(30px,4vw,56px)/1.05 "Archivo";font-stretch:125%;letter-spacing:-.03em;color:var(--gold)}
+.head p{flex-basis:100%;margin:0;max-width:56ch;color:#c4c4c4;padding-left:calc(clamp(60px,8vw,110px) + 30px)}
+.white .head .arrow{color:var(--ink)}
+.white .head p{color:#555}
+.white .head h2{color:var(--ink)}
+/* proof */
+#proof{padding:clamp(80px,10vw,150px) 0}
+.res{display:grid;grid-template-columns:minmax(130px,200px) minmax(0,1.25fr) minmax(0,1fr);gap:clamp(20px,3.6vw,56px);padding:clamp(28px,4vw,52px) 0;border-top:1px solid var(--line);align-items:start}
+.res:last-child{border-bottom:1px solid var(--line)}
+.res .th{aspect-ratio:9/16;overflow:hidden;border-radius:4px;position:relative}
+.res .th img{width:100%;height:100%;object-fit:cover}
+.res small{display:block;color:var(--gold);font:600 12px "Archivo";font-stretch:125%;text-transform:uppercase;margin-bottom:12px}
+.res h3{margin:0 0 6px;font:500 clamp(22px,2.4vw,34px)/1.1 "Archivo";font-stretch:125%;letter-spacing:-.02em}
+.res q{display:block;font-size:20px;color:#fff;margin:14px 0;font-style:italic}
+.res .why{color:#bdbdbd;margin:0;max-width:52ch}
+.kpi{font:600 clamp(40px,5vw,72px)/1 "Archivo";font-stretch:125%;letter-spacing:-.04em;color:var(--gold);white-space:nowrap}
+.kpi+span{display:block;color:#bdbdbd;margin:6px 0 20px}
+.mets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;border-top:1px solid var(--line);padding-top:16px}
+.mets b{display:block;font:600 20px "Archivo";font-stretch:110%;white-space:nowrap}
+.mets span{font-size:13px;color:#a5a5a5}
+.rcpt{margin-top:20px;display:flex;align-items:center;gap:12px;background:none;border:1px solid var(--line);color:#fff;border-radius:40px;padding:6px 18px 6px 6px;cursor:pointer;font:500 14px "Hanken Grotesk";min-height:44px}
+.rcpt img{width:52px;height:34px;object-fit:cover;border-radius:20px}
+.rcpt:hover{border-color:var(--gold)}
+/* work */
+#work{padding-top:clamp(70px,9vw,130px)}
+.cat{position:relative;display:grid;place-items:center;height:clamp(220px,32vh,340px);overflow:hidden;text-decoration:none;border:0;width:100%;background:#000;color:#fff;cursor:pointer;padding:0}
+.cat .strip{position:absolute;inset:0;display:flex;gap:6px;filter:brightness(.36) saturate(.8);transition:filter .5s,transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.cat .strip img,.cat .strip .ph{height:100%;aspect-ratio:9/16;object-fit:cover;flex:none}
+.cat:hover .strip,.cat:focus-visible .strip{filter:brightness(.6) saturate(1);transform:scale(1.04)}
+.cat .t{position:relative;text-align:center;display:grid;justify-items:center;gap:14px;padding:0 16px}
+.cat h3{margin:0;font:400 clamp(24px,3.4vw,44px)/1.1 "Archivo";font-stretch:125%;text-transform:uppercase;letter-spacing:-.02em;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:10px}
+.cat .n{width:34px;height:34px;border:1px solid var(--gold);border-radius:50%;display:grid;place-items:center;font:500 12px "Archivo";color:var(--gold)}
+.cat p{margin:0;max-width:44ch;color:#d2d2d2;font-size:15px}
+#lib{padding:clamp(70px,9vw,120px) 0}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:28px;scrollbar-width:thin}
+.tabs button{flex:none;min-height:44px;padding:0 18px;border-radius:40px;border:1px solid var(--line);background:none;color:#fff;font:500 14px "Hanken Grotesk";cursor:pointer;display:flex;align-items:center;gap:8px}
+.tabs button small{color:var(--mute);font-size:12px}
+.tabs button[aria-pressed=true]{background:var(--gold);border-color:var(--gold);color:#000}
+.tabs button[aria-pressed=true] small{color:#000}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,calc(50% - 7px)),1fr));gap:14px}
+.tile{position:relative;aspect-ratio:9/16;overflow:hidden;border-radius:4px;background:#141414;text-decoration:none;color:#fff;display:block}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.tile:hover img{transform:scale(1.06)}
+.tile .c{position:absolute;inset:auto 0 0;padding:44px 12px 12px;background:linear-gradient(transparent,rgba(0,0,0,.85))}
+.tile .c small{display:block;color:var(--gold);font-size:12px}
+.tile .c b{font-weight:600;font-size:14px;line-height:1.25;display:block}
+.pl{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.4);display:grid;place-items:center}
+.ph{background:radial-gradient(120% 80% at 30% 20%,#3a3226,#0d0d0d 70%);display:grid;place-items:center}
+.ph i{font:italic 900 46px "Playfair Display",Georgia,serif;color:var(--gold);opacity:.35}
+.more{margin-top:28px;min-height:48px;padding:0 26px;border-radius:40px;border:1px solid var(--gold);background:none;color:var(--gold);font:600 14px "Hanken Grotesk";cursor:pointer}
+.more:hover{background:var(--gold);color:#000}
+/* process */
+#process{padding:clamp(80px,10vw,150px) 0}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,40px)}
+.step{border-top:1px solid #111;padding-top:22px}
+.step .k{font:500 clamp(46px,5vw,72px)/1 "Archivo";font-stretch:125%;color:var(--gold2);letter-spacing:-.04em}
+.step h3{font:600 19px/1.2 "Archivo";font-stretch:115%;margin:18px 0 10px}
+.step p{margin:0;color:#444}
+.step .tl{margin-top:14px;font-size:13px;font-weight:700;text-transform:uppercase;color:#111}
+.cta-row{display:flex;align-items:center;gap:18px;margin-top:clamp(40px,6vw,70px);font:500 18px "Archivo";font-stretch:115%}
+/* tools band */
+#tools{background:linear-gradient(115deg,#dcc69c 0%,#e8d6b2 40%,#d6bd8e 41%,#e3cfa7 70%,#d9c195 100%);color:#000;padding:clamp(40px,6vw,70px) 0;overflow:hidden}
+.tl-row{display:flex;gap:clamp(40px,6vw,90px);width:max-content;animation:slide 40s linear infinite;align-items:center}
+.tl-row span{font:800 clamp(20px,2.4vw,30px)/1 "Archivo";font-stretch:125%;letter-spacing:-.03em;white-space:nowrap}
+.tl-row span:nth-child(3n){font-style:italic;font-stretch:100%}
+.tl-row span:nth-child(4n){font-weight:500;text-transform:lowercase}
+@keyframes slide{to{transform:translateX(-50%)}}
+/* about */
+#about{padding:clamp(80px,10vw,150px) 0}
+.ab{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,6vw,90px);align-items:center}
+.pic{position:relative}
+.pic img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:center 30%;filter:grayscale(1) contrast(1.05)}
+.pic .stack{position:absolute;left:-1px;bottom:-1px;background:#fff;padding:14px 18px 0 0;color:var(--gold2)}
+.pic .stack small{color:#000}
+.ab h2{margin:0 0 22px;font:500 clamp(34px,4.4vw,62px)/1.02 "Archivo";font-stretch:125%;letter-spacing:-.04em}
+.ab p{color:#333;font-size:17px;max-width:58ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chips span{border:1px solid #d6d6d6;border-radius:30px;padding:7px 14px;font-size:14px}
+/* faq */
+#faq{padding:0 0 clamp(80px,10vw,150px)}
+.qa{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(24px,4vw,60px)}
+details{border-top:1px solid #dcdcdc}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:20px 0;font:600 17px/1.3 "Archivo";font-stretch:110%;min-height:44px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:300 26px/1 "Archivo";color:var(--gold2);transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 22px;color:#444;max-width:52ch}
+/* contact */
+#contact{padding:clamp(90px,11vw,160px) 0 40px}
+.ask{display:flex;flex-wrap:wrap;justify-content:space-between;gap:30px;align-items:start}
+.ask .lead p{color:#fff;max-width:none;font-size:clamp(32px,4.4vw,64px);line-height:1.12}
+.ask .lead .arrow{color:#fff}
+.ask u{color:var(--gold);text-decoration-thickness:1px;text-underline-offset:12px}
+form{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:clamp(50px,7vw,90px)}
+label{display:grid;gap:6px;font-size:13px;color:#bdbdbd}
+input,select,textarea{font:16px "Hanken Grotesk";color:#fff;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.3);padding:10px 0;min-height:44px;border-radius:0}
+select option{color:#000}
+textarea{resize:vertical;min-height:96px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+.full{grid-column:1/-1}
+.send{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
+.send p{margin:0;color:#a5a5a5;font-size:14px}
+#sent{display:none;grid-column:1/-1;border:1px solid var(--gold);padding:18px;border-radius:6px}
+#sent.on{display:block}
+#sent a,#sent button{color:var(--gold);background:none;border:1px solid var(--gold);border-radius:30px;padding:10px 16px;font:600 14px "Hanken Grotesk";cursor:pointer;text-decoration:none;display:inline-block;margin:10px 8px 0 0}
+footer{margin-top:clamp(80px,10vw,140px);display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:30px;align-items:end;font-size:13px;color:#cfcfcf}
+footer .logo{font-size:56px;color:#fff;margin-bottom:12px}
+footer ul{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--gold)}
+.copy{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:#777;font-size:13px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+/* modal */
+#modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.9);display:none;place-items:center;padding:60px 16px 16px}
+#modal.on{display:grid}
+#modal .body{max-width:min(1000px,100%);max-height:100%;overflow:auto}
+#modal .vid{width:min(400px,90vw);aspect-ratio:9/16;max-height:82svh}
+#modal iframe{width:100%;height:100%;border:0;border-radius:6px}
+#modal .x{position:fixed;top:14px;right:16px;width:48px;height:48px;border-radius:50%;border:1px solid #fff;background:none;color:#fff;font-size:22px;cursor:pointer}
+/* responsive */
+@media(max-width:900px){
+ .res{grid-template-columns:minmax(110px,150px) minmax(0,1fr)}
+ .res .nums{grid-column:1/-1}
+ .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+ footer{grid-template-columns:repeat(2,minmax(0,1fr))}
+ footer>div:first-child{grid-column:1/-1}
+}
+@media(max-width:700px){
+ nav ul{gap:14px}
+ nav ul li:nth-child(n+4):not(:last-child){display:none}
+ .frame{width:100%;margin:0}
+ .big{left:16px;font-size:clamp(40px,13.4vw,90px)}
+ .slab .inner,.ab,.qa{grid-template-columns:minmax(0,1fr)}
+ .card{justify-self:start;max-width:380px}
+ .caps{margin-top:0}
+ .mq{top:auto;bottom:40px}
+ .head p{padding-left:0}
+ form{grid-template-columns:minmax(0,1fr)}
+ #tag{transform:none;left:auto;right:16px;bottom:90px}
+}
+@media(max-width:520px){
+ .res{grid-template-columns:minmax(0,1fr)}
+ .res .th{width:130px}
+ .steps{grid-template-columns:minmax(0,1fr)}
+ .lead{grid-template-columns:40px minmax(0,1fr)}
+ .logo{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){#intro{height:auto}.stage{position:relative}.cut,#tag,.hint{display:none}.shade{opacity:.6}.cap{opacity:1;pointer-events:auto}#reel{top:0}*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav aria-label="Main">
+ <a class="logo" href="#intro" aria-label="Fuen Belarma, home">fb.</a>
+ <ul>
+  <li><a href="#reel">Hooks</a></li>
+  <li><a href="#work">Work</a></li>
+  <li><a href="#proof">Proof</a></li>
+  <li><a href="#process">Process</a></li>
+  <li><a href="#about">About</a></li>
+  <li><a href="#contact">Contact</a></li>
+ </ul>
+</nav>
+
+<header id="intro">
+ <span id="reel"></span>
+ <div class="stage">
+  <div class="film" id="film" aria-hidden="true"><div class="row"></div><div class="row"></div></div>
+  <div class="shade" id="shade"></div>
+  <div class="cut" id="cut" aria-hidden="true"><div class="mono" id="mono"><span class="bl" id="bl"></span>fb</div></div>
+  <h1 class="stack" id="tag"><small>Fuen Belarma</small>AI video<br>ad<br>editor</h1>
+  <div class="hint" id="hint"><i></i>Scroll</div>
+  <div class="cap" id="cap">
+   <div>
+    <div class="stack"><small>The 3-second test</small>Every ad<br>wins or loses<br>in frame one</div>
+    <h2 style="margin-top:26px">Three seconds to earn the view.</h2>
+    <p>My hooks, one after another. If one stops you, it will stop your customers too.</p>
+   </div>
+   <a class="go" href="#work" aria-label="See the work"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></a>
+  </div>
+ </div>
+</header>
+
+<section id="name" aria-label="Name">
+ <div class="frame" id="frame" aria-hidden="true"></div>
+ <p class="big w" aria-label="Fuen Belarma, AI video"><span><b>F</b>uen</span><span><b>B</b>elarma</span><span>AI video</span></p>
+</section>
+
+<section class="white" id="studio">
+ <div class="wrap">
+  <div class="lead"><span class="arrow"></span>
+   <p id="words"><strong>Fuen Belarma</strong> is an <g>AI video editor</g> building ads that get real spend behind them, specialised in <g>AI drama</g>, <g>Pixar-style 3D</g> and <g>claymation</g>, plus AI UGC, AI songs and VSLs for DTC and e-commerce brands.</p>
+  </div>
+ </div>
+ <div class="slab">
+  <div class="wrap inner">
+   <div class="card" id="card"><em id="cardn">AI Song</em></div>
+   <div>
+    <p class="caps">I take the brief, build the story with Claude, generate the shots and cut hook variations ready to test.</p>
+    <a class="go" href="#process" aria-label="See the process"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></a>
+   </div>
+  </div>
+  <div class="mq" id="mq" aria-hidden="true">AI Drama . Pixar 3D . Claymation . AI UGC . AI Song . VSL . Skeleton . AI Drama . Pixar 3D . Claymation .</div>
+ </div>
+</section>
+
+<section id="proof">
+ <div class="wrap">
+  <div class="head"><span class="arrow"></span><h2>Numbers from live ad accounts</h2>
+   <p>Three hooks, broken down. Every figure comes straight from Meta Ads Manager; tap a receipt to see the screenshot.</p></div>
+  <div id="results"></div>
+ </div>
+</section>
+
+<section id="work">
+ <div class="wrap"><div class="head"><span class="arrow"></span><h2>The work</h2><a class="go sm" href="#lib" aria-label="Jump to the library"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></a>
+  <p>Ad styles I produce. Pick one to open its ads in the library below.</p></div></div>
+ <div id="cats"></div>
+ <div id="lib"><div class="wrap">
+  <div class="tabs" id="tabs" role="toolbar" aria-label="Filter by style"></div>
+  <div class="grid" id="grid"></div>
+  <button class="more" id="more" type="button">Show all</button>
+ </div></div>
+</section>
+
+<section class="white" id="process">
+ <div class="wrap">
+  <div class="head"><span class="arrow"></span><h2>Brief in. Winning ads out.</h2>
+   <p>One workflow for every project, with Claude doing the heavy lifting on research, story and shot planning.</p></div>
+  <div class="steps">
+   <div class="step"><div class="k">.1</div><h3>Send the brief</h3><p>Drop the product, offer, audience and any reference ads you like. I confirm the angle and deadline the same day.</p><div class="tl">Slack · ClickUp</div></div>
+   <div class="step"><div class="k">.2</div><h3>Story and shots, built with Claude</h3><p>Custom Claude Skills tear down winning ads, write and rank the hooks, draft the script and turn it into a shot list with first-frame prompts.</p><div class="tl">Claude</div></div>
+   <div class="step"><div class="k">.3</div><h3>Generate the cast and world</h3><p>Consistent characters, voices and locations across every shot, checked frame by frame before anything goes into the edit.</p><div class="tl">Higgsfield · ElevenLabs</div></div>
+   <div class="step"><div class="k">.4</div><h3>Edit, then test hooks</h3><p>One master cut with captions and sound design, plus hook variations so you can test openings and scale the winner.</p><div class="tl">Premiere Pro</div></div>
+  </div>
+  <div class="cta-row"><a class="go sm" href="#contact" aria-label="Start a project"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></a>Start a project</div>
+ </div>
+</section>
+
+<section id="tools" aria-label="Tools">
+ <div class="tl-row" id="tlrow"></div>
+</section>
+
+<section class="white" id="about">
+ <div class="wrap ab">
+  <div class="pic"><img src="t/me.webp" alt="Portrait of Fuen Belarma" width="800" height="800"><div class="stack"><small>Remote</small>AI video<br>ad editor</div></div>
+  <div>
+   <h2>Hi, I'm Fuen.</h2>
+   <p>I'm an AI video editor focused on ads that get real spend behind them. Most of my work is AI drama, Pixar-style 3D, and Pixar mixed with realism, plus AI UGC, claymation, AI songs and VSLs.</p>
+   <p>I work from client briefs and reference ads, and I build with Claude directly: custom Skills turn research, scripting and shot planning into repeatable one-command workflows, so more time goes into the creative itself.</p>
+   <div class="chips" id="chips"></div>
+  </div>
+ </div>
+</section>
+
+<section class="white" id="faq">
+ <div class="wrap">
+  <div class="head"><span class="arrow"></span><h2>Questions</h2></div>
+  <div class="qa" id="qa"></div>
+ </div>
+</section>
+
+<section id="contact">
+ <div class="wrap">
+  <div class="ask">
+   <div class="lead"><span class="arrow"></span><p>Have a brief?<br>Let's make it<br><u>sell.</u></p></div>
+   <a class="go" href="#f-name" aria-label="Fill in the project form"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></a>
+  </div>
+  <form id="form" novalidate>
+   <label>Name<input id="f-name" name="name" autocomplete="name" required></label>
+   <label>Email<input id="f-email" name="email" type="email" autocomplete="email" required></label>
+   <label>Brand<input id="f-brand" name="brand"></label>
+   <label>Ad style<select id="f-style" name="style"><option value="">Select one</option></select></label>
+   <label>Budget<input id="f-budget" name="budget"></label>
+   <label>Deadline<input id="f-deadline" name="deadline"></label>
+   <label class="full">Brief or link<textarea id="f-brief" name="brief"></textarea></label>
+   <div class="send full"><button class="go" type="submit" aria-label="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 12h17M14 6l6 6-6 6"/></svg></button><p>Builds an email to me with everything filled in.</p></div>
+   <div id="sent" role="status"></div>
+  </form>
+  <footer>
+   <div><a class="logo" href="#intro">fb.</a><div class="stack"><small>Fuen Belarma</small>AI video<br>ad<br>editor</div></div>
+   <ul><li><a href="mailto:belarmachristian@gmail.com">belarmachristian@gmail.com</a></li><li><a href="https://wa.me/639912243713" target="_blank" rel="noopener">WhatsApp +63 991 224 3713</a></li><li>Remote, worldwide</li></ul>
+   <ul><li><a href="#work">Work</a></li><li><a href="#proof">Proof</a></li><li><a href="#process">Process</a></li></ul>
+   <ul><li><a href="#about">About</a></li><li><a href="#faq">FAQ</a></li><li><a href="https://drive.google.com/drive/folders/19lZ8f6jMZ8bfmp57bOQxD4uYSxesuHxp" target="_blank" rel="noopener">Full Drive library</a></li></ul>
+  </footer>
+  <div class="copy"><span>© <span id="yr">2026</span> Fuen Belarma</span><span>9:16 · Meta-ready</span></div>
+ </div>
+</section>
+
+<div id="modal" role="dialog" aria-modal="true" aria-label="Preview"><button class="x" id="mx" type="button" aria-label="Close">×</button><div class="body" id="mb"></div></div>
+
+<script>
+{
+const DATA = {"P": [{"title": "Aesop Skincare VSL", "category": "VSL and Ads", "driveId": "18I8hxfSL3UkVcVH1SdZn0sTWfx-BqiJr", "desc": "AI-produced video sales letter for a premium skincare brand, built around a clear hook and benefit-led story.", "tags": ["Hook", "Storytelling", "CTA"], "t": true}, {"title": "Menopause Relief VSL", "category": "VSL and Ads", "driveId": "1y5VQWHDK72h6X6J7hQ-ey84T-3NiEJEJ", "desc": "Direct-response VSL for a health product, following a problem-agitate-solution structure.", "tags": ["Problem-Solution", "Proof", "CTA"], "t": false}, {"title": "Color Swatch Product Video", "category": "VSL and Ads", "driveId": "1dhUjYjLur8yvTbVBHPIXNpFVUzyzN2rr", "desc": "Product-focused ad creative presenting colour options with clean pacing and visual consistency.", "tags": ["Product", "Motion", "Color"], "t": true}, {"title": "Lux Organic VSL", "category": "VSL and Ads", "driveId": "1k3UHKiUXfeBZmWD6wpElNwjgUFvpHfI-", "desc": "Conversion-focused VSL for an organic product line with lifestyle visuals and a clear offer.", "tags": ["Hook", "B-roll", "Offer"], "t": true}, {"title": "Scentiment Fragrance Ad", "category": "VSL and Ads", "driveId": "1mdVJSB-ivMqQYxWPka58UxmJzxKdRZdE", "desc": "UGC-style direct-response creative for a fragrance brand, scripted for paid social.", "tags": ["UGC Style", "Script", "CTA"], "t": true}, {"title": "His Doctor Doubled the Dose AI UGC", "category": "AI UGC", "driveId": "1PvIazf7aZNvhhr00Qfav70LbO0jqtFV7", "desc": "Hook-led AI UGC ad opening on a curiosity line, built to stop the scroll and carry viewers into the offer.", "tags": ["AI Creator", "Hook", "Direct Response"], "t": false}, {"title": "Khush & Ike AI UGC", "category": "AI UGC", "driveId": "1SHuUxnVzz2vkjX1Do4xWB8i1njo9ONPC", "desc": "Two-creator AI UGC ad with natural, phone-native delivery and a conversion-focused script.", "tags": ["AI Creator", "Duo", "Direct Response"], "t": false}, {"title": "Credit Repair AI UGC (v1)", "category": "AI UGC", "driveId": "1WzJjH7il3zedw-4X2ygmA9lNMZf1B-1U", "desc": "AI creator testimonial-style ad for a credit repair offer, written to a direct-response script.", "tags": ["AI Creator", "Testimonial", "Script"], "t": true}, {"title": "Credit Repair AI UGC (v2)", "category": "AI UGC", "driveId": "1-vjfGV-Qoqs_NhtjqtOWWntMRkwzz_29", "desc": "Second angle on the credit repair offer with a different hook and creator.", "tags": ["AI Creator", "Hook Variant"], "t": true}, {"title": "Credit Repair AI UGC (v3)", "category": "AI UGC", "driveId": "1d45O0fydIJvvAoppgP_th6b6y8H3tnXW", "desc": "Third creative variant for the same offer, testing a new opening and pacing.", "tags": ["AI Creator", "Hook Variant"], "t": true}, {"title": "EZWays Credit AI UGC", "category": "AI UGC", "driveId": "1pBT7U5FAucSGp_3rnEgt_3pDEWT0r6Zb", "desc": "AI UGC ad for a credit service, phone-native delivery with conversion-focused scripting.", "tags": ["AI Creator", "Phone-Native"], "t": true}, {"title": "EZWays Trading App AI UGC", "category": "AI UGC", "driveId": "1r9feHDBotneNqC-UtGSl_F9Vf_4zYBUl", "desc": "AI creator ad for a trading app, built around a relatable hook and app demonstration.", "tags": ["AI Creator", "App Demo"], "t": true}, {"title": "Elbow Support AI UGC", "category": "AI UGC", "driveId": "1b-mmpYKukzHGkcnWiMgJ1KKpbHu-6hGp", "desc": "Product-in-hand AI UGC creative for an elbow support product, variant 2.", "tags": ["Product Demo", "AI Creator"], "t": true}, {"title": "Whisko (Pixar Style)", "category": "3D Animation", "driveId": "1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-", "desc": "Pixar-style 3D animated ad for Whisko, character-driven from hook to CTA.", "tags": ["3D", "Pixar Style", "Character"], "t": true}, {"title": "Whisko Hook 01", "category": "3D Animation", "driveId": "1BB7agBdGNinH4nUCr9E7h86jnyF66mtW", "desc": "Hook variant 01 of the Whisko Pixar-style ad: same story, a different opening, with on-screen text.", "tags": ["3D", "Hook Test", "Text Overlay"], "t": true}, {"title": "Whisko Hook 02", "category": "3D Animation", "driveId": "1iPob2VZluRM_PfW6mHM9QrOKCSI1zEll", "desc": "Hook variant 02 of the Whisko Pixar-style ad: same story, a different opening, with on-screen text.", "tags": ["3D", "Hook Test", "Text Overlay"], "t": true}, {"title": "Whisko Hook 03", "category": "3D Animation", "driveId": "1ozdem-NADmSlhropSUiL5CnE3svVQObF", "desc": "Hook variant 03 of the Whisko Pixar-style ad: same story, a different opening, with on-screen text.", "tags": ["3D", "Hook Test", "Text Overlay"], "t": true}, {"title": "Whisko Hook 04", "category": "3D Animation", "driveId": "14inn9BUhMaHRpDZJ2rrM_jJw2aUpaQyJ", "desc": "Hook variant 04 of the Whisko Pixar-style ad: same story, a different opening, with on-screen text.", "tags": ["3D", "Hook Test", "Text Overlay"], "t": true}, {"title": "Whisko Hook 05", "category": "3D Animation", "driveId": "1D5vfI0R8V9KCsCdbF_0hSmu6xCeQ43Ij", "desc": "Hook variant 05 of the Whisko Pixar-style ad: same story, a different opening, with on-screen text.", "tags": ["3D", "Hook Test", "Text Overlay"], "t": true}, {"title": "Total Relief Cream (Pixar Style)", "category": "3D Animation", "driveId": "1qep4tav-28BDP9YKkMKHMWLWZBgHyVRW", "desc": "Pixar-style 3D animated story ad for a pain relief cream, character-driven from hook to CTA.", "tags": ["3D", "Character", "Story"], "t": false}, {"title": "AI Product Ad Creative", "category": "3D Animation", "driveId": "1FcS8EUY9Aw0dvL9ljKjecGYrKqc7B-q2", "desc": "Cinematic AI-generated 3D product advertisement with premium lighting and motion.", "tags": ["3D Render", "Motion", "Lighting"], "t": false}, {"title": "Coellyo Product Video", "category": "3D Animation", "driveId": "1vv-sedrxKEQ6bUf2ijP2Xs6erz_Njy4x", "desc": "3D product presentation test for Coellyo, focused on polished product detail.", "tags": ["3D", "Product"], "t": false}, {"title": "Fitness Wear 3D Ad", "category": "3D Animation", "driveId": "1ASd9LfLS7kHV63syph6sXsjOL1_80ug3", "desc": "Animated ad for an activewear brand with stylised 3D visuals and energetic pacing.", "tags": ["3D", "Motion", "Apparel"], "t": true}, {"title": "Gourmet Coffee 3D Ad", "category": "3D Animation", "driveId": "194TwAfjPDB7TnNvcOzasJmoCt8j_O-dj", "desc": "Appetite-led 3D animated ad for a gourmet coffee product.", "tags": ["3D", "Food & Drink"], "t": true}, {"title": "AI Drama Ad (Zach & Ike)", "category": "AI Drama", "driveId": "1XMXe4C6J9FQQOEPlapvJF_qIJ5t971GV", "desc": "Two-character AI drama for e-commerce, built around a scene-led hook that turns into the product pitch.", "tags": ["AI Drama", "Dialogue", "E-commerce"], "t": false}, {"title": "AI Drama Ad (Khush & Maken)", "category": "AI Drama", "driveId": "1bCGK0PoOQgkiTTR9EvRYvrWd9b7QVQnr", "desc": "Story-driven AI drama that hooks with a tense scene and lands on the product.", "tags": ["AI Drama", "Story", "Hook"], "t": false}, {"title": "AI Drama Ad (Khush & Maken, v2)", "category": "AI Drama", "driveId": "1m5TSZMlWBOALFCFKC_q_NzGVA2x3csMX", "desc": "Second cut of the Khush & Maken AI drama, testing a new opening and pacing.", "tags": ["AI Drama", "Dialogue", "Hook Test"], "t": false}, {"title": "Phantom Precision Strap: Hook 01", "category": "AI Drama", "driveId": "1CgAuRqCn1Xmv54PN3CUnRFpn_2vb61ry", "desc": "Hyper-realistic AI drama for Phantom's Precision Strap, hook variation 1 of 4: a new opening on the same cinematic story, built to test which hook scales.", "tags": ["AI Drama", "Hyper-Realistic", "Hook Test"], "t": false}, {"title": "Phantom Precision Strap: Hook 02", "category": "AI Drama", "driveId": "1yiewfp5ibtJdeX4wHnoJ0NTbynOUzmJf", "desc": "Hyper-realistic AI drama for Phantom's Precision Strap, hook variation 2 of 4: a new opening on the same cinematic story, built to test which hook scales.", "tags": ["AI Drama", "Hyper-Realistic", "Hook Test"], "t": false}, {"title": "Phantom Precision Strap: Hook 03", "category": "AI Drama", "driveId": "1dC8ceiV6-wbDaB2KBi_Y4OciB3-X0jYa", "desc": "Hyper-realistic AI drama for Phantom's Precision Strap, hook variation 3 of 4: a new opening on the same cinematic story, built to test which hook scales.", "tags": ["AI Drama", "Hyper-Realistic", "Hook Test"], "t": false}, {"title": "Phantom Precision Strap: Hook 04", "category": "AI Drama", "driveId": "1N0INbvoUaNsH3HOpc0X5GHq9ppjqAUEB", "desc": "Hyper-realistic AI drama for Phantom's Precision Strap, hook variation 4 of 4: a new opening on the same cinematic story, built to test which hook scales.", "tags": ["AI Drama", "Hyper-Realistic", "Hook Test"], "t": false}, {"title": "Demon Killa Demo", "category": "AI Drama", "driveId": "1NDt7Ua5AOgwWYYX0FIKOurWNGMR5e99j", "desc": "AI drama demo for e-commerce: a cinematic, story-first scene that builds tension before the product reveal.", "tags": ["AI Drama", "Cinematic", "Demo"], "t": true}, {"title": "Naturiq NexGenPrime Claymation Ad", "category": "Claymation", "driveId": "12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ", "desc": "Claymation-style AI product ad for Naturiq NexGenPrime, with a handcrafted stop-motion look built around the product.", "tags": ["Claymation", "Product", "Stylised"], "t": true}, {"title": "Primal Queen Claymation Ad", "category": "Claymation", "driveId": "1dtOS5OIrvDB3mK8zEUX7cUaI6LEWA3c8", "desc": "Claymation-style AI product ad for Primal Queen with a playful, tactile look.", "tags": ["Claymation", "Product", "Stylised"], "t": false}, {"title": "AI Slop Ad 02", "category": "AI Slop", "driveId": "1jTiZ-yeV2y9NbUKV0G5ew8RRYQDxo7eB", "desc": "Lo-fi, scroll-native AI ad in the AI slop style: raw on purpose and built to stop the thumb.", "tags": ["AI Slop", "Scroll-Stopper", "Top of Funnel"], "t": true}, {"title": "Performance Decline AI Slop Ad (Zach & Ike)", "category": "AI Slop", "driveId": "1RDmXnRSFbEsdA01puvWxTXizpvqmPYS6", "desc": "Top-of-funnel, problem-aware men's health ad in the lo-fi AI slop style.", "tags": ["AI Slop", "Problem-Aware", "Top of Funnel"], "t": false}, {"title": "UltimaPeak Skeleton Ad 1", "category": "Skeleton Ads", "driveId": "1u-nGqpliDLFHQyc8JNKvIthVknOo96ZH", "desc": "AI skeleton-character ad for UltimaPeak: a bold, scroll-stopping skeleton lead that carries the hook into the product story.", "tags": ["Skeleton", "Character", "Scroll-Stopper"], "t": true}, {"title": "UltimaPeak Skeleton Ad 2", "category": "Skeleton Ads", "driveId": "1SPCD8C_UCCSCRgqv0rb1Aj-oJtclJDlx", "desc": "Second UltimaPeak skeleton ad, testing a new hook and story beat with the same skeleton lead.", "tags": ["Skeleton", "Hook Test", "Character"], "t": true}, {"title": "UltimaPeak Skeleton Ad 3", "category": "Skeleton Ads", "driveId": "1bv5DilBsfoirm5BDfUyCIbJJuomojw5O", "desc": "Third UltimaPeak skeleton ad variation, built to find the angle that scales.", "tags": ["Skeleton", "Variation", "Scroll-Stopper"], "t": true}, {"title": "AI Song Ad 01", "category": "AI Song", "driveId": "1kCYkY-zwS_talGXBUZ7TtWRKMROuo7u3", "desc": "Musical AI ad where the product story is sung, built for a catchy hook and replay value.", "tags": ["AI Song", "Music", "Hook"], "t": true}, {"title": "Matt & Bow AI Song Ad", "category": "AI Song", "driveId": "1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_", "desc": "Musical AI ad where the characters sing the product story, built for replay value and a catchy hook.", "tags": ["AI Song", "Music", "Character"], "t": true}, {"title": "Elite Performance Gym", "category": "Video Editing", "driveId": "1Opbk_ye1NcLsZvIv6IZvMFDOdCNkr0kX", "desc": "Promo edit for a performance gym with punchy cuts, motion text and a high-energy pace.", "tags": ["Gym", "Promo", "Motion Text"], "t": true}, {"title": "GGRE Podcast: The Secret to Success", "category": "Video Editing", "driveId": "19Tlff4kwNZ5Y2ZFCPdwqAQStTR9mcoaj", "desc": "Podcast clip edited for social, with captions, pacing and a hook pulled from the conversation.", "tags": ["Podcast", "Captions", "Short-Form"], "t": true}, {"title": "Jazzy: Your Membership Elevated", "category": "Video Editing", "driveId": "19nyZ7jUu2Kg_6ysTRke-8DHrORTIzkzt", "desc": "Membership promo edit with clean pacing, branded text and a clear call to action.", "tags": ["Membership", "Promo", "CTA"], "t": true}, {"title": "Keep Showing Up", "category": "Video Editing", "driveId": "1HdDSDufL4L8NkcHFywcsEwNhQ4SjXY51", "desc": "Motivational edit cut to music, built around rhythm, pacing and on-screen text.", "tags": ["Motivational", "Music Cut", "Pacing"], "t": true}, {"title": "PWB: Stronger and Better (Kieran Hype)", "category": "Video Editing", "driveId": "1PhyDvC-W50I-M9g3wH_zyh-V1mIXQn6j", "desc": "Hype edit for PWB featuring Kieran, with fast cuts, sound design and bold captions.", "tags": ["Hype", "Sound Design", "Captions"], "t": true}, {"title": "The Full Vitality Membership", "category": "Video Editing", "driveId": "1yza64ZaxpgMM5_YseMkg813M0LQHBiuT", "desc": "Membership explainer edit that walks through the offer with clear structure and captions.", "tags": ["Membership", "Explainer", "Captions"], "t": false}, {"title": "AI Podcast Clip", "category": "Podcast", "driveId": "1OJ45aZTb8Wop8cEcNeQy4LFn7-VPbNM9", "desc": "AI-produced podcast-style video test with clean captions and pacing.", "tags": ["Podcast", "Captions"], "t": true}], "C": {"VSL and Ads": "Direct-response VSLs and performance ads built around a strong hook, a clear story and a CTA.", "AI UGC": "Phone-native AI creator ads: testimonials, product-in-hand demos and app walkthroughs.", "3D Animation": "Pixar-style and cinematic 3D product ads with character-driven stories.", "AI Drama": "Story-driven AI drama creatives that hook with a scene and land on the product.", "Claymation": "Claymation-style AI product ads with a playful, tactile look.", "AI Slop": "Lo-fi, scroll-native AI ads that look deliberately raw, built to stop the thumb at the top of the funnel.", "Skeleton Ads": "AI skeleton-character ads: an instantly recognisable, scroll-stopping lead that hooks fast and carries the product story.", "AI Song": "Music-led AI ads where characters sing the product story: catchy, replayable and built to hook.", "Video Editing": "Traditional editing on real footage: gym and membership promos, podcast clips and hype edits with captions, pacing and sound design.", "Podcast": "Podcast-style video with clean captions and pacing."}};
+const P = DATA.P, C = DATA.C;
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const has = id => P.some(p => p.driveId === id && p.t);
+const img = (id, alt = "", lazy = true) => has(id) ? `<img src="t/${esc(id)}.webp" alt="${esc(alt)}"${lazy ? ' loading="lazy"' : ''}>` : `<div class="ph"><i>fb</i></div>`;
+const view = id => `https://drive.google.com/file/d/${encodeURIComponent(id)}/view`;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const canEmbed = /github\.io$|localhost|127\.0\.0\.1/.test(location.hostname) || location.protocol === "file:";
+const withT = P.filter(p => p.t);
+const arrow = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M7 5l12 7-12 7z"/></svg>';
+
+/* modal */
+const modal = $("#modal");
+const open = html => { $("#mb").innerHTML = html; modal.classList.add("on"); };
+const close = () => { modal.classList.remove("on"); $("#mb").innerHTML = ""; };
+$("#mx").onclick = close;
+modal.onclick = e => { if (e.target === modal) close(); };
+addEventListener("keydown", e => { if (e.key === "Escape") close(); });
+document.addEventListener("click", e => {
+  const a = e.target.closest("a[data-v]");
+  if (!a || !canEmbed) return;
+  e.preventDefault();
+  open(`<div class="vid"><iframe src="https://drive.google.com/file/d/${encodeURIComponent(a.dataset.v)}/preview" allow="autoplay; fullscreen" allowfullscreen></iframe></div>`);
+});
+
+/* intro: film strips play behind a black sheet with "fb" cut out; scrolling zooms through the letters */
+const rows = document.querySelectorAll("#film .row");
+const sh = [...withT].sort((a, b) => a.driveId.localeCompare(b.driveId));
+const rv = [...sh].reverse();
+rows[0].innerHTML = [...sh, ...sh].map(p => img(p.driveId, "", false)).join("");
+rows[1].innerHTML = [...rv, ...rv].map(p => img(p.driveId, "", false)).join("");
+const intro = $("#intro"), cut = $("#cut"), mono = $("#mono"), shade = $("#shade"), cap = $("#cap"), tag = $("#tag"), hint = $("#hint");
+const cl = v => Math.max(0, Math.min(1, v));
+/* find the thickest part of the letters, so the zoom always passes through ink and ends in the middle of the screen */
+const org = { dx: 0, dy: 0, bx: 0, by: 0 };
+const findInk = () => {
+  const W = mono.offsetWidth, H = mono.offsetHeight, bl = $("#bl");
+  if (!W || !H) return;
+  const fs = parseFloat(getComputedStyle(mono).fontSize);
+  const k = Math.min(1, 360 / W), w = Math.ceil(W * k), h = Math.ceil(H * k);
+  const cv = document.createElement("canvas"); cv.width = w; cv.height = h;
+  const cx = cv.getContext("2d", { willReadFrequently: true });
+  cx.font = `italic 900 ${fs * k}px "Playfair Display", Georgia, serif`;
+  const tx = bl.offsetLeft * k, ty = (bl.offsetTop + bl.offsetHeight) * k;
+  cx.fillText("fb", tx, ty);
+  const a = cx.getImageData(0, 0, w, h).data, d = new Float32Array(w * h);
+  let x0 = w, x1 = 0, y0 = h, y1 = 0;
+  for (let i = 0; i < w * h; i++) { d[i] = a[i * 4 + 3] > 128 ? 1e6 : 0; if (d[i]) { const x = i % w, y = (i - x) / w; if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
+  if (x1 <= x0) return;
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x; if (d[i]) d[i] = Math.min(d[i], d[i - 1] + 1, d[i - w] + 1, d[i - w - 1] + 1.4, d[i - w + 1] + 1.4); }
+  for (let y = h - 2; y > 0; y--) for (let x = w - 2; x > 0; x--) { const i = y * w + x; if (d[i]) d[i] = Math.min(d[i], d[i + 1] + 1, d[i + w] + 1, d[i + w + 1] + 1.4, d[i + w - 1] + 1.4); }
+  /* zoom target: the stem of the b, a little above the middle of its bowl */
+  const bX = tx + cx.measureText("f").width, xh = cx.measureText("x").actualBoundingBoxAscent, e = fs * k;
+  let best = 0, bi = -1;
+  for (let y = Math.round(ty - xh * 0.8); y < ty - xh * 0.5; y++) for (let x = Math.round(bX - e * 0.05); x < bX + e * 0.3; x++) {
+    if (x < 1 || y < 1 || x > w - 2 || y > h - 2) continue;
+    const i = y * w + x; if (d[i] < 1e5 && d[i] > best) { best = d[i]; bi = i; }
+  }
+  if (bi < 0) for (let i = 0; i < w * h; i++) if (d[i] < 1e5 && d[i] > best) { best = d[i]; bi = i; }
+  if (bi < 0) return;
+  const ox = (bi % w) / k, oy = Math.floor(bi / w) / k;
+  mono.style.transformOrigin = `${ox}px ${oy}px`;
+  /* centre the visible letters on the screen (the text box itself is lopsided) */
+  org.bx = W / 2 - (x0 + x1) / 2 / k; org.by = H / 2 - (y0 + y1) / 2 / k - cut.clientHeight * 0.03;
+  org.dx = cut.clientWidth / 2 - (mono.offsetLeft + ox); org.dy = cut.clientHeight / 2 - (mono.offsetTop + oy);
+  window.__ink = [mono.offsetLeft + ox + org.bx, mono.offsetTop + oy + org.by];
+};
+findInk();
+document.fonts?.load('italic 900 100px "Playfair Display"').then(findInk).catch(() => {});
+document.fonts?.ready.then(findInk);
+addEventListener("resize", findInk);
+const introTick = t => {
+  const span = intro.offsetHeight - innerHeight;
+  if (scrollY < span + innerHeight) {
+    const p = cl(scrollY / span);
+    const z = cl(p / 0.6), k = cl((p - 0.38) / 0.2);
+    const m = cl(z / 0.5), mm = m * m * (3 - 2 * m);
+    mono.style.transform = `translate(${org.bx + (org.dx - org.bx) * mm}px,${org.by + (org.dy - org.by) * mm}px) scale(${Math.pow(90, z * z * (3 - 2 * z))}) rotate(-6deg)`;
+    cut.style.opacity = 1 - k;
+    cut.style.visibility = k >= 1 ? "hidden" : "visible";
+    shade.style.opacity = 0.62 * cl((p - 0.58) / 0.22);
+    const c = cl((p - 0.66) / 0.2);
+    cap.style.opacity = c; cap.style.transform = `translateY(${(1 - c) * 40}px)`; cap.style.pointerEvents = c > 0.6 ? "auto" : "none";
+    tag.style.opacity = 1 - cl((p - 0.3) / 0.2);
+    hint.style.opacity = 1 - cl(p / 0.08);
+    const half = (rows[0].scrollWidth + 12) / 2, d = (t * 0.03 + scrollY * 0.35) % half;
+    rows[0].style.transform = `translateX(${-d}px)`;
+    rows[1].style.transform = `translateX(${d - half}px)`;
+  }
+  requestAnimationFrame(introTick);
+};
+if (!reduce) requestAnimationFrame(introTick);
+
+/* name frame */
+const fids = ["1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-","1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_","12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ"];
+$("#frame").innerHTML = fids.map(id => img(id, "", false)).join("");
+
+/* statement words light up as they reach the middle of the screen */
+const wp = $("#words");
+wp.innerHTML = [...wp.childNodes].map(n => {
+  const g = n.nodeName === "G", st = n.nodeName === "STRONG";
+  return n.textContent.split(/(\s+)/).map(w => w.trim() ? `<span class="wd${g ? " g" : ""}"${st ? ' style="font-weight:700"' : ""}>${esc(w)}</span>` : w).join("");
+}).join("");
+const wds = [...wp.querySelectorAll(".wd")];
+
+/* card cycles through styles */
+const cardSet = [["AI Song","1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_"],["Pixar 3D","1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-"],["Claymation","12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ"],["Skeleton","1u-nGqpliDLFHQyc8JNKvIthVknOo96ZH"],["AI UGC","1WzJjH7il3zedw-4X2ygmA9lNMZf1B-1U"]];
+const card = $("#card");
+card.insertAdjacentHTML("afterbegin", cardSet.map(([n, id], i) => `<img src="t/${id}.webp" alt="" style="opacity:${i ? 0 : 1}" loading="lazy">`).join(""));
+const cimgs = card.querySelectorAll("img");
+let ci = 0;
+if (!reduce) setInterval(() => { cimgs[ci].style.opacity = 0; ci = (ci + 1) % cimgs.length; cimgs[ci].style.opacity = 1; $("#cardn").textContent = cardSet[ci][0]; }, 2200);
+
+/* scroll-linked motion */
+const mq = $("#mq"), frame = $("#frame");
+const tick = () => {
+  const y = scrollY, vh = innerHeight;
+  const r = mq.parentElement.getBoundingClientRect();
+  mq.style.transform = `translateX(${(r.top - vh) * 0.6}px)`;
+  frame.style.transform = `translateY(${(frame.getBoundingClientRect().top - vh / 2) * -0.12}px)`;
+  const mid = vh * 0.62;
+  for (const w of wds) w.classList.toggle("on", w.getBoundingClientRect().top < mid);
+};
+if (!reduce) { addEventListener("scroll", () => requestAnimationFrame(tick), { passive: true }); addEventListener("resize", tick); tick(); }
+else wds.forEach(w => w.classList.add("on"));
+
+/* proof */
+const R = [
+  { id: "1lhsi_B3yJHoCMDyDz_n9qnFZuwbIsgL_", label: "AI Song · Matt & Bow", name: "The heartbreak open", line: "My husband left me", why: "It opens on the worst moment of someone's life: a man walking out with a suitcase. Viewers stay to find out what happens next, and the song turns that tension into the product story.", lead: ["$5,229.91", "purchase value"], m: [["1.79", "ROAS"], ["51.62%", "Hook rate"], ["6.71%", "Link CTR"]], img: "results-1" },
+  { id: "12CaTQUHVS4WviJblomU1JnsI1ZJhumBJ", label: "Claymation · Naturiq NexGenPrime", name: "Authority meets clay", line: "Her doctor said", why: "A gloved hand on a clay belly and a doctor's verdict, half-spoken. Authority creates the question, and the claymation look stops the thumb before the viewer decides to scroll.", lead: ["$2,213.23", "purchase value"], m: [["1.8", "ROAS"], ["47.56%", "Hook rate"], ["7.34%", "Link CTR"]], img: "results-2" },
+  { id: "1gCfc_hx2-e7ylDityOkTqAFuDyRRco5-", label: "3D Pixar-style · Whisko", name: "The problem as a villain", line: "I'm ammonia.", why: "The litter-box smell becomes a smug green character that introduces itself. Every cat owner knows this enemy, so the problem is named in one line and the product gets a villain to defeat.", lead: ["46.43%", "hook rate"], m: [["$1,549.73", "Spend"], ["19.72%", "Hold rate"], ["1.78%", "Outbound CTR"]], img: "results-4" }
+];
+$("#results").innerHTML = R.map(r => `<article class="res">
+  <a class="th" href="${view(r.id)}" data-v="${esc(r.id)}" target="_blank" rel="noopener" aria-label="Watch ${esc(r.name)}">${img(r.id)}<span class="pl">${arrow}</span></a>
+  <div><small>${esc(r.label)}</small><h3>${esc(r.name)}</h3><q>${esc(r.line)}</q><p class="why">${esc(r.why)}</p></div>
+  <div class="nums"><div class="kpi">${esc(r.lead[0])}</div><span>${esc(r.lead[1])}</span>
+   <div class="mets">${r.m.map(([v, l]) => `<div><b>${esc(v)}</b><span>${esc(l)}</span></div>`).join("")}</div>
+   <button class="rcpt" type="button" data-r="${r.img}"><img src="t/${r.img}.webp" alt="" loading="lazy">See the Ads Manager receipt</button></div>
+ </article>`).join("");
+$("#results").addEventListener("click", e => { const b = e.target.closest("[data-r]"); if (b) open(`<img src="t/${b.dataset.r}.webp" alt="Meta Ads Manager results screenshot">`); });
+
+/* categories */
+const cats = Object.keys(C);
+$("#cats").innerHTML = cats.map((c, i) => {
+  const ps = P.filter(p => p.category === c);
+  const strip = [...ps.filter(p => p.t), ...ps.filter(p => p.t), ...ps.filter(p => p.t)].slice(0, 10);
+  const s = strip.length ? strip.map(p => img(p.driveId)).join("") : '<div class="ph"><i>fb</i></div>'.repeat(8);
+  return `<button class="cat" type="button" data-c="${esc(c)}"><div class="strip">${s}</div><div class="t"><h3>${esc(c)}</h3><span class="n">${String(ps.length).padStart(2, "0")}</span><p>${esc(C[c])}</p></div></button>`;
+}).join("");
+$("#cats").addEventListener("click", e => { const b = e.target.closest("[data-c]"); if (!b) return; active = b.dataset.c; expanded = false; draw(); $("#lib").scrollIntoView({ behavior: reduce ? "auto" : "smooth" }); });
+
+/* library */
+let active = "All", expanded = false;
+const LIMIT = 12;
+const tabs = ["All", ...cats];
+const draw = () => {
+  $("#tabs").innerHTML = tabs.map(c => `<button type="button" data-t="${esc(c)}" aria-pressed="${c === active}">${esc(c)}<small>${c === "All" ? P.length : P.filter(p => p.category === c).length}</small></button>`).join("");
+  const list = active === "All" ? P : P.filter(p => p.category === active);
+  const shown = expanded ? list : list.slice(0, LIMIT);
+  $("#grid").innerHTML = shown.map(p => `<a class="tile" href="${view(p.driveId)}" data-v="${esc(p.driveId)}" target="_blank" rel="noopener" title="${esc(p.desc)}">${img(p.driveId, p.title)}<span class="pl">${arrow}</span><span class="c"><small>${esc(p.category)}</small><b>${esc(p.title)}</b></span></a>`).join("");
+  const m = $("#more");
+  m.hidden = expanded || list.length <= LIMIT;
+  m.textContent = `Show all ${list.length}`;
+};
+$("#tabs").addEventListener("click", e => { const b = e.target.closest("[data-t]"); if (b) { active = b.dataset.t; expanded = false; draw(); } });
+$("#more").onclick = () => { expanded = true; draw(); };
+draw();
+
+/* tools band */
+const tools = ["Claude", "Higgsfield", "ElevenLabs", "Premiere Pro", "After Effects", "CapCut", "Google Flow", "Grok", "Photoshop", "Illustrator", "Canva", "ClickUp", "Slack", "Trello", "MCP Servers", "Adobe Podcast"];
+$("#tlrow").innerHTML = [...tools, ...tools].map(t => `<span>${esc(t)}</span>`).join("");
+
+/* skills */
+const skills = ["Claude Prompting", "Custom Claude Skills", "VSL Editing", "Direct-Response Editing", "AI Video Generation", "AI UGC Production", "3D Animated Ads", "Ad Teardowns", "Scriptwriting", "Hook Writing", "Short-Form Editing", "Caption Animation", "Sound Design", "Voiceover Direction", "Color Correction", "Storytelling", "Pacing", "Creative Direction"];
+$("#chips").innerHTML = skills.map(s => `<span>${esc(s)}</span>`).join("");
+
+/* faq */
+const FAQ = [
+  ["What type of projects do you accept?", "VSL creatives, AI UGC, 3D animated ads, short-form content, social media advertisements, and DTC or e-commerce content."],
+  ["Can you work from just a brief?", "Yes. A brief plus any reference ads you like is enough to develop the angle, script, and shot plan."],
+  ["Can you create a video without traditional footage?", "Yes. Many projects are produced fully with AI-generated visuals, voice, and motion, with product images as the starting point."],
+  ["Do you offer revisions?", "Yes. Revisions are part of the process and the number of rounds is agreed before the project starts."],
+  ["Can you create videos for different platforms?", "Yes. Each video is paced and exported for where it will run: Meta, TikTok, YouTube, or a landing page."],
+  ["Can you create different aspect ratios?", "Yes. 9:16, 4:5, 1:1, and 16:9 versions can be delivered from the same project."],
+  ["How can I send my project files?", "Share a Google Drive, Dropbox, or Frame.io link through the contact form."],
+  ["Do you work remotely?", "Yes. All projects are handled remotely with clear updates along the way."],
+  ["Do you set up Claude prompts or Skills?", "Yes. I can build prompts and custom Skills for ad research, scripting, and creative production workflows."]
+];
+const half = Math.ceil(FAQ.length / 2);
+const col = a => `<div>${a.map(([q, a2]) => `<details><summary>${esc(q)}</summary><p>${esc(a2)}</p></details>`).join("")}</div>`;
+$("#qa").innerHTML = col(FAQ.slice(0, half)) + col(FAQ.slice(half));
+
+/* contact */
+const styles = ["AI Drama", "Pixar-Style 3D", "Claymation", "AI UGC", "AI Song", "Skeleton Ad", "VSL", "Short-Form Edit", "Not sure yet"];
+$("#f-style").insertAdjacentHTML("beforeend", styles.map(s => `<option>${esc(s)}</option>`).join(""));
+const MAIL = "belarmachristian@gmail.com";
+$("#form").addEventListener("submit", e => {
+  e.preventDefault();
+  const f = new FormData(e.target);
+  if (!f.get("name") || !f.get("email")) { $("#sent").className = "on"; $("#sent").textContent = "Please add your name and email first."; return; }
+  const body = ["name", "email", "brand", "style", "budget", "deadline", "brief"].map(k => `${k[0].toUpperCase() + k.slice(1)}: ${f.get(k) || "-"}`).join("\n");
+  const subj = `New project: ${f.get("brand") || f.get("name")}`;
+  const href = `mailto:${MAIL}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  const s = $("#sent"); s.className = "on";
+  s.innerHTML = `Your message is ready. If your email app doesn't open, copy it and send it to <b>${MAIL}</b>.<br><a href="${href}">Open in email</a><button type="button" id="cp">Copy message</button><a href="https://wa.me/639912243713?text=${encodeURIComponent(body)}" target="_blank" rel="noopener">Send on WhatsApp</a>`;
+  $("#cp").onclick = async () => { try { await navigator.clipboard.writeText(body); $("#cp").textContent = "Copied"; } catch { $("#cp").textContent = "Copy blocked"; } };
+});
+$("#yr").textContent = new Date().getFullYear();
+}
+</script>
+</body>
+</html>
